@@ -16,7 +16,7 @@ const App = () => {
         <img src="https://media.images.yourquote.in/post/720/0/0/24/508/4bgw8566.webp" alt="Welcome" className='image' />
       </main>
       <footer className='footer'>
-        <p>&copy; 2023 Your Name</p>
+        <p>&copy; 2023 @triumphtales</p>
       </footer>
     </div>
   );
