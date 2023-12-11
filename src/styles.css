@@ -20,15 +20,16 @@ body {
   }
   
   .square {
-    font-size: 34px;
+    font-size: 40px;
     width: 100px;
     height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #ccc;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border: 2px black solid;
+    margin: 3px;
   
     &:hover {
       background-color: #f0f0f0;
@@ -37,7 +38,13 @@ body {
   
   .status {
     font-size: 24px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+   
+    padding: 10px;
+    background-color: rgb(97, 170, 230);
+    border-radius: 10px;
+    color: #180404;
+    
   }
   
   .winner {

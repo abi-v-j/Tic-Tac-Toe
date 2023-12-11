@@ -23,6 +23,7 @@ const App = () => {
 
     const winner = calculateWinner(newBoard);
     if (winner) {
+      alert(`Winner: ${winner}`)
       setGameStatus(`Winner: ${winner}`);
     } else if (newBoard.every((square) => square !== null)) {
       setGameStatus('It\'s a draw!');
