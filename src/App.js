@@ -1,25 +1,95 @@
-import React from 'react';
-import './styles.css'
+import React, { useState } from 'react';
+import './styles.css';
 
 const App = () => {
+  const initialBoard = Array(9).fill(null);
+  const [board, setBoard] = useState(initialBoard);
+  const [xIsNext, setXIsNext] = useState(true);
+  const [gameStatus, setGameStatus] = useState(null);
+
+  const handleClick = (index) => {
+    if (gameStatus) {
+      return; // Game is over, ignore clicks
+    }
+
+    const newBoard = [...board];
+
+    if (calculateWinner(newBoard) || newBoard[index]) {
+      return;
+    }
+
+    newBoard[index] = xIsNext ? 'X' : 'O';
+    setBoard(newBoard);
+
+    const winner = calculateWinner(newBoard);
+    if (winner) {
+      setGameStatus(`Winner: ${winner}`);
+    } else if (newBoard.every((square) => square !== null)) {
+      setGameStatus('It\'s a draw!');
+    } else {
+      setXIsNext(!xIsNext);
+    }
+  };
+
+  const resetGame = () => {
+    setBoard(initialBoard);
+    setXIsNext(true);
+    setGameStatus(null);
+  };
+
+  const renderSquare = (index) => (
+    <button className="square" onClick={() => handleClick(index)}>
+      {board[index]}
+    </button>
+  );
+
   return (
-    <div className='container'>
-      <header className='header'>
-        <h1>Unleashing Your Epic Tale of Triumph</h1>
-      </header>
-      <main className='main'>
-        <p>
-          In the tapestry of life, each thread is woven with the words we choose and the stories we create. It is within the pages of our own narrative that we find the power to shape our destinies. Just as a skilled author crafts a compelling tale, so too can we compose the story of our lives with intention and purpose. Embrace the pen of possibility and script a narrative that resonates with resilience, courage, and unwavering determination.</p>
-        <p>In the grand library of existence, every setback is but a plot twist, every challenge a character-building moment. As we navigate the chapters of our journey, let us draw inspiration from the literary greats who faced adversity with grace and transformed their struggles into epic triumphs. Like a protagonist rising from the ashes, we too possess the innate ability to turn setbacks into stepping stones, failures into lessons, and doubts into the fuel that propels us forward.</p>
-        <p>Consider the ink of optimism that flows within you, for it has the power to rewrite the script of your life. In the face of uncertainty, let the poetry of perseverance guide your pen. Write verses of resilience, sonnets of self-belief, and chapters that echo with the unwavering pursuit of dreams. Just as a classic novel stands the test of time, so too can your journey become a timeless tale of tenacity.</p>
-        <p>As you navigate the uncharted terrain of your ambitions, remember that literature is not merely confined to books; it is a living, breathing force within you. Your life story is a masterpiece in the making, and with each turn of the page, you have the opportunity to infuse it with courage, passion, and the indomitable spirit of a protagonist on a quest for greatness. So, pick up the pen, my friend, and write the most extraordinary chapter of your life—one filled with triumphs, growth, and the unyielding belief that your story is a masterpiece in the making.</p>
-        <img src="https://media.images.yourquote.in/post/720/0/0/24/508/4bgw8566.webp" alt="Welcome" className='image' />
-      </main>
-      <footer className='footer'>
-        <p>&copy; 2023 @triumphtales</p>
-      </footer>
+    <div>
+      <div className="status">{gameStatus || `Next player: ${xIsNext ? 'X' : 'O'}`}</div>
+      <div className="board-row">
+        {renderSquare(0)}
+        {renderSquare(1)}
+        {renderSquare(2)}
+      </div>
+      <div className="board-row">
+        {renderSquare(3)}
+        {renderSquare(4)}
+        {renderSquare(5)}
+      </div>
+      <div className="board-row">
+        {renderSquare(6)}
+        {renderSquare(7)}
+        {renderSquare(8)}
+      </div>
+      {gameStatus && (
+        <div>
+          <button className='reset-button' onClick={resetGame}>Reset Game</button>
+        </div>
+      )}
     </div>
   );
-}
+};
+
+const calculateWinner = (squares) => {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+
+  return null;
+};
 
 export default App;
